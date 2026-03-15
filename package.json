@@ -1,0 +1,16 @@
+{
+  "name": "bon-guild-wars",
+  "version": "1.0.0",
+  "description": "Battle of Nodes - Guild Wars Transaction Sprint Scripts",
+  "scripts": {
+    "generate": "node 1-generate-wallets.js",
+    "distribute": "node 2-distribute-funds.js",
+    "spam": "node 3-spam-transactions.js",
+    "check": "node check-balances.js"
+  },
+  "dependencies": {
+    "@multiversx/sdk-core": "^13.15.0",
+    "@multiversx/sdk-wallet": "^4.6.0",
+    "@multiversx/sdk-network-providers": "^2.8.0"
+  }
+}

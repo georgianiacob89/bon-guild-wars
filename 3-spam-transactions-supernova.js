@@ -20,6 +20,8 @@ const FEE = BigInt(config.TX_GAS_LIMIT) * BigInt(config.TX_GAS_PRICE);
 const TOTAL_MEMBERS = 5;
 const memberArg = process.argv.indexOf("--member");
 const memberIdx = memberArg !== -1 ? parseInt(process.argv[memberArg + 1]) : 0;
+const shardArg = process.argv.indexOf("--shard");
+const targetShard = shardArg !== -1 ? parseInt(process.argv[shardArg + 1]) : -1;
 const capArg = process.argv.indexOf("--cap");
 const TX_CAP = capArg !== -1 ? parseInt(process.argv[capArg + 1]) : 0;
 const WORKER_CONCURRENCY = 500; // Run all wallets concurrently (Node handles IO well)
@@ -29,17 +31,33 @@ async function main() {
   console.log(`📡 Gateway: ${config.GATEWAY_URL}`);
   console.log(`⛓️  Chain ID: ${config.CHAIN_ID}`);
   console.log(`⚡ Concurrency: ${WORKER_CONCURRENCY}`);
+  if (targetShard !== -1) {
+    console.log(`💎 MODE: SINGLE SHARD ${targetShard}`);
+  }
   console.log(`🎯 Cap: ${TX_CAP === 0 ? "UNLIMITED" : TX_CAP.toLocaleString()}`);
 
   const allWallets = JSON.parse(fs.readFileSync(config.WALLETS_INDEX_FILE, "utf8"));
   let myWallets = allWallets;
+
+  // Filter by Shard if requested
+  if (targetShard !== -1) {
+    myWallets = myWallets.filter(w => w.shard === targetShard);
+    console.log(`🔍 Filtered for Shard ${targetShard}: ${myWallets.length} wallets found.`);
+  }
+
+  // Filter by Member (slices the remaining list)
   if (memberIdx >= 1 && memberIdx <= TOTAL_MEMBERS) {
-    const per = Math.ceil(allWallets.length / TOTAL_MEMBERS);
+    const per = Math.ceil(myWallets.length / TOTAL_MEMBERS);
     const start = (memberIdx - 1) * per;
-    myWallets = allWallets.slice(start, Math.min(start + per, allWallets.length));
-    console.log(`👤 Member ${memberIdx}: Managing wallets ${start} - ${start + myWallets.length - 1}`);
+    const slice = myWallets.slice(start, Math.min(start + per, myWallets.length));
+    console.log(`👤 Member ${memberIdx}: Managing wallets ${start} - ${start + slice.length - 1} (of ${myWallets.length} in this shard)`);
+    myWallets = slice;
   } else {
-    console.log(`👤 ALL IN: Managing ${myWallets.length} wallets`);
+    if (targetShard === -1) {
+       console.log(`👤 ALL IN: Managing ${myWallets.length} wallets`);
+    } else {
+       console.log(`👤 ALL IN (Shard ${targetShard}): Managing ${myWallets.length} wallets`);
+    }
   }
 
   // Ring logic

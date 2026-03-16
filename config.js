@@ -28,6 +28,7 @@ module.exports = {
   EGLD_PER_WALLET_B: "1000000000000000000",  // 1 EGLD
 
   // --- SPAM ---
+  TXS_PER_BATCH: 99,       // Max unconfirmed txs per wallet (Network limit is usually ~100)
   TXS_PER_BATCH: 100,       // Max nonce lookahead
   BATCH_DELAY_MS: 600,      // Supernova block time (600ms)
   CONCURRENCY: 50,          // Reduced concurrency to avoid event loop lag

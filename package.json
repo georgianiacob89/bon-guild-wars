@@ -5,7 +5,7 @@
   "scripts": {
     "generate": "node 1-generate-wallets.js",
     "distribute": "node 2-distribute-funds.js",
-    "spam": "node 3-spam-transactions.js",
+    "spam": "node 3-spam-transactions-supernova.js",
     "check": "node check-balances.js"
   },
   "dependencies": {

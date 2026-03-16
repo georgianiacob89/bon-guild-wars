@@ -28,8 +28,8 @@ module.exports = {
   EGLD_PER_WALLET_B: "1000000000000000000",  // 1 EGLD
 
   // --- SPAM ---
-  TXS_PER_BATCH: 100,
-  BATCH_DELAY_MS: 6000,
-  CONCURRENCY: 50,
+  TXS_PER_BATCH: 100,       // Max nonce lookahead
+  BATCH_DELAY_MS: 600,      // Supernova block time (600ms)
+  CONCURRENCY: 50,          // Reduced concurrency to avoid event loop lag
   WINDOW_DURATION_MINUTES: 30,
 };

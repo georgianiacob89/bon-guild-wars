@@ -156,11 +156,11 @@ async function walletWorker(wallet, provider) {
         await provider.sendTransactions(txs);
         totalSent += txs.length;
     } catch (e) {
-        await sleep(200); 
+        await sleep(100); 
     }
 
-    // 3. Adaptive Wait
-    await sleep(2000); // 2s wait (approx 3 blocks)
+    // 3. Adaptive Wait (Reduced from 2000 to improve TPS)
+    await sleep(1000); // 1s wait (approx 1.5 blocks)
 
     // 4. Sync Nonce Loop
     let syncAttempts = 0;

@@ -25,12 +25,11 @@ module.exports = {
   // Window A: 2000 EGLD / 500 = 4 EGLD each
   // Window B: 500 EGLD / 500 = 1 EGLD each
   EGLD_PER_WALLET_A: "4000000000000000000",  // 4 EGLD
-  EGLD_PER_WALLET_B: "1000000000000000000",  // 1 EGLD
+  EGLD_PER_WALLET_B: "2000000000000000000",  // 2 EGLD
 
   // --- SPAM ---
   TXS_PER_BATCH: 99,       // Max unconfirmed txs per wallet (Network limit is usually ~100)
-  TXS_PER_BATCH: 100,       // Max nonce lookahead
-  BATCH_DELAY_MS: 600,      // Supernova block time (600ms)
+  BATCH_DELAY_MS: 600,     // Supernova block time (600ms)
   CONCURRENCY: 50,          // Reduced concurrency to avoid event loop lag
   WINDOW_DURATION_MINUTES: 30,
 };

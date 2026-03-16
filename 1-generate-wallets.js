@@ -8,6 +8,7 @@
 // ====================================================================
 
 const { Mnemonic, UserSigner } = require("@multiversx/sdk-wallet");
+const { Address, AddressComputer } = require("@multiversx/sdk-core");
 const fs = require("fs");
 const path = require("path");
 const config = require("./config");
@@ -66,9 +67,9 @@ async function generateWallets() {
       console.log("  ✅ PEM round-trip verified on first wallet");
     }
 
-    // Determine shard (last byte of pubkey mod 3)
-    const lastByte = pkBytes[pkBytes.length - 1];
-    const shard = lastByte % 3;
+    // Determine shard (Official SDK method)
+    const computer = new AddressComputer();
+    const shard = computer.getShardOfAddress(new Address(addrBech32));
 
     walletIndex.push({
       index: i,
